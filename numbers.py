@@ -45,8 +45,3 @@ class B(A):
         self.num = num
         for i in range(len(self.args)):
             self.args[i] = self.args[i] + self.num
-
-a3 = A(4,3,2,5)
-a4 = a3.clearedOdds()
-print(a4)
-assert(str(a4) == 'A(evens=[2, 4],odds=[])')
