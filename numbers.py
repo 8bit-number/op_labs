@@ -1,3 +1,5 @@
+
+
 class A:
     def __init__(self, *args):
         self.args = list(args)
@@ -11,16 +13,14 @@ class A:
         self.evens.sort()
 
     def clearOdds(self):
-        self.somelist = [x for x in self.args if x not in self.odds]
+        self.args = [x for x in self.args if x not in self.odds]
+        self.odds = []
 
     def clearedOdds(self):
-        self.args = [x for x in self.args if x not in self.odds]
-
-        return self.args
-
+        return A(*self.evens)
 
     def __str__(self):
-        return 'A(evens={},odds={})'.format(self.evens, self.odds)
+        return '{}(evens={},odds={})'.format(self.__class__.__name__, self.evens, self.odds)
 
     def __eq__(self, other):
         try:
@@ -37,11 +37,31 @@ class A:
         except AttributeError:
             return True
 
+
 class B(A):
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, num1, num2):
+        super().__init__(*[i for i in range(num1, num2+1)])
+        self.num1 = num1
+        self.num2 = num2
 
     def shifted(self, num):
-        self.num = num
-        for i in range(len(self.args)):
-            self.args[i] = self.args[i] + self.num
+        return B(self.num1+ num, self.num2+num)
+
+    def __str__(self):
+        return '{}(evens={},odds={})'.format(self.__class__.__name__, self.evens, self.odds)
+
+    def __eq__(self, other):
+        try:
+            if self.evens == other.evens:
+                return True
+            return False
+        except AttributeError:
+            return False
+
+    def __ne__(self, other):
+        try:
+            if self.evens != other.evens:
+                return True
+        except AttributeError:
+            return True
+
